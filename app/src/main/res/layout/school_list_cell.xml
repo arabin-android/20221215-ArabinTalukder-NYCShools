@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingTop="10dp"
+    android:layout_marginTop="10dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/company_img"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="6dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/school_svgrepo_com"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/school_details_guide"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".22" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent=".75"
+        android:layout_height="wrap_content"
+        android:id="@+id/school_name"
+        app:layout_constraintStart_toStartOf="@id/school_details_guide"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="dummy"
+        android:textSize="16sp"
+        android:textColor="@color/purple_700"
+        android:maxLines="2"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent=".75"
+        android:layout_height="wrap_content"
+        android:id="@+id/school_location"
+        app:layout_constraintStart_toStartOf="@id/school_details_guide"
+        app:layout_constraintTop_toBottomOf="@id/school_name"
+        android:text="dummy"
+        android:layout_marginTop="5dp"
+        android:textSize="14sp"
+        android:textColor="@color/teal_700"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintHorizontal_bias="1"
+        android:maxLines="1"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/phone_email"
+        app:layout_constraintTop_toBottomOf="@id/school_location"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@id/school_details_guide"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:weightSum="2"
+        android:layout_marginEnd="12dp">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/phone"
+            android:text="dummy"
+            android:layout_marginTop="5dp"
+            android:textSize="14sp"
+            android:textColor="@color/purple_500"
+            android:padding="3dp"
+            android:layout_weight="1"
+            android:maxLines="1"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/email"
+            android:text="dummy"
+            android:layout_marginTop="5dp"
+            android:textSize="14sp"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/purple_500"
+            android:padding="3dp"
+            android:layout_weight="1"
+            android:maxLines="1"/>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent=".75"
+        android:layout_height="wrap_content"
+        android:id="@+id/website"
+        android:textColor="@color/purple_700"
+        app:layout_constraintTop_toBottomOf="@id/phone_email"
+        app:layout_constraintStart_toStartOf="@id/school_details_guide"
+        android:text="dummy"
+        android:textSize="14sp"
+        android:autoSizeTextType="uniform"
+        android:maxLines="1"
+        android:padding="3dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">20221215-ArabinTalukder-NYCShools</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_to_new_york_school_open_data_system">Welcome to New York School Open data System</string>
+
+    <!--&#160 puts space in code-->
+
+    <string name="participants">Participants:&#160;</string>
+    <string name="reading_score">Reading Score:&#160;</string>
+    <string name="math_score">Math score:&#160;</string>
+    <string name="writing_score">Writing score:&#160;</string>
+</resources>
