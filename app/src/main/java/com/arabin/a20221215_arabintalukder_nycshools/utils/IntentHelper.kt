@@ -12,7 +12,7 @@ import java.util.*
  * */
 class IntentHelper {
 
-    companion object{
+    companion object {
         /**returns phone intent to make call*/
         fun getPhoneIntent(strPhoneNumber: String): Intent? {
             val phIntent = Intent(Intent.ACTION_CALL)
@@ -35,9 +35,9 @@ class IntentHelper {
         }
 
         /**returns map intent to show address on map*/
-        fun getMapIntent(lat: Double, long: Double): Intent{
+        fun getMapIntent(lat: Double, long: Double): Intent {
             val uri: String =
-                java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", lat, long)
+                String.format(Locale.ENGLISH, "geo:%f,%f?z=17&q=%f,%f", lat, long, lat, long);
             return Intent(Intent.ACTION_VIEW, Uri.parse(uri))
         }
 
