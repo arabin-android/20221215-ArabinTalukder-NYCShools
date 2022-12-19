@@ -25,13 +25,13 @@ import javax.inject.Inject
 class SchoolDataViewModel @Inject constructor(private val mainRepo: MainRepo) : ViewModel() {
 
     /**live school list data to be observed in UI*/
-    private val _localSchoolData = MutableLiveData<RestAPIState<List<SchoolDetails>>>()
-    var localSchoolData: LiveData<RestAPIState<List<SchoolDetails>>> =
+    private val _localSchoolData = MutableLiveData<Event<RestAPIState<List<SchoolDetails>>>>()
+    var localSchoolData: LiveData<Event<RestAPIState<List<SchoolDetails>>>> =
         _localSchoolData
 
     /**results live data based on query*/
-    private val _marksDetails = MutableLiveData<RestAPIState<List<SchoolResult>>>()
-    val marksDetails : LiveData<RestAPIState<List<SchoolResult>>> =
+    private val _marksDetails = MutableLiveData<Event<RestAPIState<List<SchoolResult>>>>()
+    val marksDetails : LiveData<Event<RestAPIState<List<SchoolResult>>>> =
         _marksDetails
 
 
@@ -40,21 +40,21 @@ class SchoolDataViewModel @Inject constructor(private val mainRepo: MainRepo) : 
      * runs in background thread both operations api and room insertion*/
     fun loadSchoolDetails() {
         viewModelScope.launch (Dispatchers.IO){
-            _localSchoolData.postValue(RestAPIState.loading(data = null, "Loading"))
+            _localSchoolData.postValue(Event(RestAPIState.loading(data = null, "Loading")))
             try {
                 var data = mainRepo.fetchAllSchools()
               if (data.isNotEmpty()){
-                  _localSchoolData.postValue(RestAPIState.success(data))
+                  _localSchoolData.postValue(Event(RestAPIState.success(data)))
               }else{
                   val id = mainRepo.insertSchoolInfo(mainRepo.getSchoolDetails())
                   Log.d("vehicle_lsit_item","Inserted ID ${id.size}")
                   mainRepo.insertResultInfo(mainRepo.getSchoolResults())
                   data = mainRepo.fetchAllSchools()
-                  _localSchoolData.postValue(RestAPIState.success(data))
+                  _localSchoolData.postValue(Event(RestAPIState.success(data)))
               }
             } catch (e: Exception) {
                 e.printStackTrace()
-                _localSchoolData.postValue(RestAPIState.error(data = null, "Error"))
+                _localSchoolData.postValue(Event(RestAPIState.error(data = null, "Error")))
             }
         }
     }
@@ -62,16 +62,16 @@ class SchoolDataViewModel @Inject constructor(private val mainRepo: MainRepo) : 
     /** Find searched school based on school name or address runs in background*/
     fun findSearchedSchools(string: String){
         viewModelScope.launch(Dispatchers.IO){
-            _localSchoolData.postValue(RestAPIState.loading(data = null, "Loading"))
+            _localSchoolData.postValue(Event(RestAPIState.loading(data = null, "Loading")))
             try {
                 val data = if(string.isBlank()){
                     mainRepo.fetchAllSchools()
                 }else{
                     mainRepo.findSchools(string)
                 }
-                _localSchoolData.postValue(RestAPIState.success(data = data))
+                _localSchoolData.postValue(Event(RestAPIState.success(data = data)))
             }catch (e: Exception){
-                _localSchoolData.postValue(RestAPIState.error(data = null, "Error"))
+                _localSchoolData.postValue(Event(RestAPIState.error(data = null, "Error")))
             }
         }
     }
@@ -79,15 +79,15 @@ class SchoolDataViewModel @Inject constructor(private val mainRepo: MainRepo) : 
     /** Find the result based on dbn code runs in background*/
     fun findResult(inputString: String){
         viewModelScope.launch(Dispatchers.IO){
-            _marksDetails.postValue(RestAPIState.loading(data = null, "Loading"))
+            _marksDetails.postValue(Event(RestAPIState.loading(data = null, "Loading")))
             try {
                 if(inputString.isBlank()){
-                    _marksDetails.postValue(RestAPIState.error(data = null, "Error"))
+                    _marksDetails.postValue(Event(RestAPIState.error(data = null, "Error")))
                 }else{
-                    _marksDetails.postValue(RestAPIState.success(data = mainRepo.findResult(inputString)))
+                    _marksDetails.postValue(Event(RestAPIState.success(data = mainRepo.findResult(inputString))))
                 }
             }catch (e: Exception){
-                _marksDetails.postValue(RestAPIState.error(data = null, "Error"))
+                _marksDetails.postValue(Event(RestAPIState.error(data = null, "Error")))
             }
         }
     }

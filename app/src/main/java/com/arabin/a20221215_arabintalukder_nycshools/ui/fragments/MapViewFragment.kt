@@ -68,23 +68,27 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback, OnMarkerClickListene
 
     /** observes items and call [drawSchoolMarker]*/
     private fun observeValue() {
-        mainViewModel.localSchoolData.observe(viewLifecycleOwner) { apiState ->
-            when (apiState.status) {
-                RestAPIStatus.SUCCESS -> {
-                    mMapViewBinding.progressBar1.visibility = View.GONE
-                    if (!apiState.data.isNullOrEmpty())
-                        drawSchoolMarker(apiState.data)
-                    else
-                        Snackbar.make(requireView(), "No results found",
-                            Toast.LENGTH_SHORT).show()
+        mainViewModel.localSchoolData.observe(viewLifecycleOwner) {
+            it.getContentIfNotHandled()?.let { apiState ->
+                when (apiState.status) {
+                    RestAPIStatus.SUCCESS -> {
+                        mMapViewBinding.progressBar1.visibility = View.GONE
+                        if (!apiState.data.isNullOrEmpty())
+                            drawSchoolMarker(apiState.data)
+                        else
+                            Snackbar.make(
+                                requireView(), "No results found",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                    }
+                    RestAPIStatus.LOADING -> {
+                        mMapViewBinding.progressBar1.visibility = View.VISIBLE
+                    }
+                    RestAPIStatus.ERROR -> {
+                        mMapViewBinding.progressBar1.visibility = View.GONE
+                    }
+                    else -> {}
                 }
-                RestAPIStatus.LOADING -> {
-                    mMapViewBinding.progressBar1.visibility = View.VISIBLE
-                }
-                RestAPIStatus.ERROR -> {
-                    mMapViewBinding.progressBar1.visibility = View.GONE
-                }
-                else -> {}
             }
         }
     }
@@ -101,12 +105,16 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback, OnMarkerClickListene
         /** iterate over data and create each marker*/
         data?.forEach {
             val marker = MapMarkerView(requireContext())
+
             /**get bitmap marker*/
             val markerBitmap = it.school_name?.let { it1 -> marker.getBitmap(it1) }
 
             val locationMarker =
-                it.longitude?.toDouble()?.let { it1 -> it.latitude?.toDouble()
-                    ?.let { it2 -> LatLng(it2, it1) } }
+                it.longitude?.toDouble()?.let { it1 ->
+                    it.latitude?.toDouble()
+                        ?.let { it2 -> LatLng(it2, it1) }
+                }
+
             /** create a marker option to it on map*/
             val markerOptions = locationMarker?.let { it1 ->
                 MarkerOptions().position(it1)
@@ -120,7 +128,7 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback, OnMarkerClickListene
         }
 
         /** once drawing done update camera to the 1st one and animate towards it*/
-        val latLng =  data?.get(0)?.run {
+        val latLng = data?.get(0)?.run {
             val lat = latitude?.toDouble()
             val long = longitude?.toDouble()
             return@run lat?.let { long?.let { it1 -> LatLng(it, it1) } }

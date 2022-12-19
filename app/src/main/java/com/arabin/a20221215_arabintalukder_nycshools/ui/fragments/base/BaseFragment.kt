@@ -54,24 +54,26 @@ open class BaseFragment : Fragment(), SearchView.OnQueryTextListener {
      * observe the result based on search and update ui
      * */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mainViewModel.marksDetails.observe(viewLifecycleOwner) { apiState ->
-            when (apiState.status) {
-                RestAPIStatus.SUCCESS -> {
-                    if (apiState.data?.isNotEmpty() == true && ::mSchool.isInitialized)
-                        showResultInfo(apiState.data?.get(0), mSchool)
-                    else
-                        Snackbar.make(requireView(), "No results found",
-                            Toast.LENGTH_SHORT).show()
+        mainViewModel.marksDetails.observe(viewLifecycleOwner) { it ->
+            it.getContentIfNotHandled()?.let {apiState->
+                when (apiState.status) {
+                    RestAPIStatus.SUCCESS -> {
+                        if (apiState.data?.isNotEmpty() == true && ::mSchool.isInitialized)
+                            showResultInfo(apiState.data?.get(0), mSchool)
+                        else
+                            Snackbar.make(requireView(), "No results found",
+                                Toast.LENGTH_SHORT).show()
+                    }
+                    RestAPIStatus.LOADING -> {}
+                    RestAPIStatus.ERROR -> {
+                        Snackbar.make(
+                            requireView(),
+                            "Something went wrong please try again!!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    else -> {}
                 }
-                RestAPIStatus.LOADING -> {}
-                RestAPIStatus.ERROR -> {
-                    Snackbar.make(
-                        requireView(),
-                        "Something went wrong please try again!!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                else -> {}
             }
         }
     }

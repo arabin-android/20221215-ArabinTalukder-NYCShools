@@ -73,23 +73,25 @@ class SchoolListFragment : BaseFragment() {
 
         /**call and observer the response*/
         mainViewModel.loadSchoolDetails()
-        mainViewModel.localSchoolData.observe(viewLifecycleOwner) { apiState ->
-            when (apiState.status) {
-                RestAPIStatus.SUCCESS -> {
-                    schoolListFragmentBinding.progressBar1.hide()
-                    if (!apiState.data.isNullOrEmpty()) {
-                        updateUi(apiState?.data)
-                    } else {
+        mainViewModel.localSchoolData.observe(viewLifecycleOwner) {
+            it.getContentIfNotHandled()?.let { apiState ->
+                when (apiState.status) {
+                    RestAPIStatus.SUCCESS -> {
+                        schoolListFragmentBinding.progressBar1.hide()
+                        if (!apiState.data.isNullOrEmpty()) {
+                            updateUi(apiState?.data)
+                        } else {
+                            handleError()
+                        }
+                    }
+                    RestAPIStatus.LOADING -> {
+                        schoolListFragmentBinding.progressBar1.show()
+                    }
+                    RestAPIStatus.ERROR -> {
                         handleError()
                     }
+                    else -> {}
                 }
-                RestAPIStatus.LOADING -> {
-                    schoolListFragmentBinding.progressBar1.show()
-                }
-                RestAPIStatus.ERROR -> {
-                    handleError()
-                }
-                else -> {}
             }
         }
     }
