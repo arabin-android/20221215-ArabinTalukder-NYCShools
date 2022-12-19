@@ -6,6 +6,7 @@ package com.arabin.a20221215_arabintalukder_nycshools.ui.viewmodel
  * Prevent observing the earlier value
  * while doing on back press
  * observe only if there is change
+ * a hack to handle backpress
  * */
 class Event<out T>(private val content: T) {
 
