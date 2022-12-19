@@ -38,7 +38,7 @@ class WelcomeScreen : BaseFragment() {
         Handler(Looper.getMainLooper()).postDelayed({
            val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
            navController.navigate(R.id.details_fragment, null, ViewHelper.getNavigationOptions())
-        },1000)
+        },1500)
     }
 
 }

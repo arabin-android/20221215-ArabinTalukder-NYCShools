@@ -37,7 +37,7 @@ class DetailsScoreBottomSheet(
 
     /**
      * launcher to check permission acceptance or denial
-     * we take decisiono on enums [PermissionDelegate.PERMISSIONS]
+     * we take decision on enums [PermissionDelegate.PERMISSIONS]
      * */
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->

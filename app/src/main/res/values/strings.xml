@@ -10,4 +10,6 @@
     <string name="reading_score">Reading Score:&#160;</string>
     <string name="math_score">Math score:&#160;</string>
     <string name="writing_score">Writing score:&#160;</string>
+    <string name="no_results_found">No results found</string>
+    <string name="error_try_again">Something went wrong please try again!!</string>
 </resources>

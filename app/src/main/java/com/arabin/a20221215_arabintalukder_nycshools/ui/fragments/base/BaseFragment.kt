@@ -36,6 +36,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 open class BaseFragment : Fragment(), SearchView.OnQueryTextListener {
 
+    /**Here used the viewModel as we have only
+     * 2 fragments and both has almost same functionality
+     * except views are different, */
     protected val mainViewModel: SchoolDataViewModel by viewModels()
     private lateinit var mSchool: SchoolDetails
 
@@ -53,7 +56,8 @@ open class BaseFragment : Fragment(), SearchView.OnQueryTextListener {
     /**
      * observe the result based on search and update ui
      * */
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onResume() {
+        super.onResume()
         mainViewModel.marksDetails.observe(viewLifecycleOwner) { it ->
             it.getContentIfNotHandled()?.let {apiState->
                 when (apiState.status) {
@@ -61,14 +65,14 @@ open class BaseFragment : Fragment(), SearchView.OnQueryTextListener {
                         if (apiState.data?.isNotEmpty() == true && ::mSchool.isInitialized)
                             showResultInfo(apiState.data?.get(0), mSchool)
                         else
-                            Snackbar.make(requireView(), "No results found",
+                            Snackbar.make(requireView(), getString(R.string.no_results_found),
                                 Toast.LENGTH_SHORT).show()
                     }
                     RestAPIStatus.LOADING -> {}
                     RestAPIStatus.ERROR -> {
                         Snackbar.make(
                             requireView(),
-                            "Something went wrong please try again!!",
+                            getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
