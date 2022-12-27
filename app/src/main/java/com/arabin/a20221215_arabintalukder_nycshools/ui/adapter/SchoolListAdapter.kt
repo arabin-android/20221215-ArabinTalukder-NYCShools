@@ -1,4 +1,4 @@
-package com.arabin.a20221215_arabintalukder_nycshools.adapter
+package com.arabin.a20221215_arabintalukder_nycshools.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

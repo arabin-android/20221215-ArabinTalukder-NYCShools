@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.arabin.a20221215_arabintalukder_nycshools.R
-import com.arabin.a20221215_arabintalukder_nycshools.adapter.SchoolListAdapter
+import com.arabin.a20221215_arabintalukder_nycshools.ui.adapter.SchoolListAdapter
 import com.arabin.a20221215_arabintalukder_nycshools.databinding.FragmentSchoolListBinding
 import com.arabin.a20221215_arabintalukder_nycshools.ui.fragments.base.BaseFragment
 import com.arabin.a20221215_arabintalukder_nycshools.ui.helper.hide
